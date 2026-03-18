@@ -55,10 +55,17 @@
             overflow: hidden; /* Evita el scroll de la página completa */
         }
 
-        /* Ocultar barra de desplazamiento */
-        ::-webkit-scrollbar {
-            width: 0px;
-            background: transparent;
+        /* Responsive Horizontal Slider y Scroll Oculto */
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .smooth-scroll {
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
         }
 
         .glass-panel {
@@ -393,6 +400,8 @@
             border-radius: 10px;
             border: 1px solid rgba(86, 149, 120, 0.3);
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            max-width: 100%;
+            overflow-x: auto;
         }
     </style>
 </head>
@@ -422,10 +431,10 @@
             
             <!-- IMAGEN CON EFECTO GLITTER ANIMADO -->
             <div class="glitter-wrapper">
-                <img src="https://i.imgur.com/gvTgw51.png" alt="Intro Logo" class="w-56 sm:w-72 h-auto object-contain relative z-0 drop-shadow-[0_0_15px_rgba(86,149,120,0.5)]">
+                <img src="https://i.imgur.com/gvTgw51.png" alt="Intro Logo" class="w-48 sm:w-72 h-auto object-contain relative z-0 drop-shadow-[0_0_15px_rgba(86,149,120,0.5)]">
             </div>
 
-            <button id="enter-btn" class="group relative px-12 py-4 rounded-full bg-em-panel text-white font-bold tracking-widest overflow-hidden transition-all hover:scale-105 hover:shadow-glow-lg border border-em-highlight/30 uppercase">
+            <button id="enter-btn" class="group relative px-10 sm:px-12 py-3 sm:py-4 rounded-full bg-em-panel text-white font-bold tracking-widest overflow-hidden transition-all hover:scale-105 hover:shadow-glow-lg border border-em-highlight/30 uppercase text-sm sm:text-base">
                 <div class="absolute inset-0 w-0 bg-em-highlight transition-all duration-[250ms] ease-out group-hover:w-full opacity-50"></div>
                 <span class="relative z-10 flex items-center gap-3">
                     INGRESAR
@@ -434,21 +443,21 @@
         </div>
     </div>
 
-    <!-- Contenedor principal de la aplicación (Ahora es visible desde el inicio debajo del overlay) -->
+    <!-- Contenedor principal de la aplicación (Visible desde el inicio debajo del overlay, con Scroll Horizontal Responsivo) -->
     <div id="main-app" class="fixed inset-0 w-screen h-screen flex items-center justify-center p-2 sm:p-4 z-10 visible-app overflow-hidden box-border">
         
-        <!-- Card principal: 800x500 máx. -->
-        <div class="relative w-[95vw] h-[90vh] max-w-[800px] max-h-[500px] min-w-[320px] min-h-[400px] rounded-[1.5rem] md:rounded-[2.5rem] glass-dark shadow-[0_0_50px_rgba(0,0,0,0.5)] overflow-hidden flex flex-col md:flex-row p-2 sm:p-3 md:p-4 gap-2 sm:gap-3 md:gap-4 border-2 border-em-highlight/20 box-border mx-auto my-auto transition-all duration-300">
+        <!-- Card principal: Flex Row, Auto Scroll en móviles, Hidden en Desktop -->
+        <div class="relative w-[95vw] h-[90vh] max-w-[800px] max-h-[500px] min-w-[320px] min-h-[400px] rounded-[1.5rem] md:rounded-[2.5rem] glass-dark shadow-[0_0_50px_rgba(0,0,0,0.5)] flex flex-row overflow-x-auto md:overflow-hidden hide-scrollbar smooth-scroll snap-x snap-mandatory p-2 sm:p-3 md:p-4 gap-2 sm:gap-3 md:gap-4 border-2 border-em-highlight/20 box-border mx-auto my-auto transition-all duration-300">
 
-            <!-- Barra de navegación izquierda -->
-            <nav class="glass-panel w-full md:w-[72px] md:h-full rounded-2xl md:rounded-full flex md:flex-col items-center justify-between py-2 px-4 md:py-4 md:px-0 z-20 flex-shrink-0 shadow-inner-glow relative box-border">
+            <!-- Barra de navegación izquierda (Fija verticalmente) -->
+            <nav class="glass-panel w-[60px] min-w-[60px] md:w-[72px] md:min-w-[72px] h-full rounded-full flex flex-col items-center justify-between py-4 px-0 z-20 flex-shrink-0 shadow-inner-glow relative box-border snap-start">
                 <!-- Logo -->
-                <div class="text-em-highlight cursor-pointer hover:scale-110 transition-transform mb-0 md:mb-4" onclick="switchView('home')">
+                <div class="text-em-highlight cursor-pointer hover:scale-110 transition-transform mb-4" onclick="switchView('home')">
                     <i id="top-logo-icon" class="ph-fill ph-hexagon text-2xl sm:text-3xl drop-shadow-[0_0_8px_rgba(86,149,120,0.8)] inline-block"></i>
                 </div>
 
                 <!-- Iconos de navegación (SPA) -->
-                <div class="flex md:flex-col gap-3 sm:gap-4 flex-1 justify-center md:justify-start items-center">
+                <div class="flex flex-col gap-4 flex-1 justify-center items-center">
                     <button class="nav-item active group" onclick="switchView('home')">
                         <i class="ph-fill ph-house text-xl sm:text-2xl"></i>
                         <span class="absolute left-14 top-1/2 -translate-y-1/2 bg-em-panel text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap hidden md:block z-50">Inicio</span>
@@ -458,7 +467,6 @@
                         <span class="absolute left-14 top-1/2 -translate-y-1/2 bg-em-panel text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap hidden md:block z-50">Galería</span>
                     </button>
                     
-                    <!-- NUEVO ÍCONO WEBSITE (REEMPLAZA MÚSICA) -->
                     <button class="nav-item group" onclick="switchView('website')">
                         <i class="ph-fill ph-globe text-xl sm:text-2xl"></i>
                         <span class="absolute left-14 top-1/2 -translate-y-1/2 bg-em-panel text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap hidden md:block z-50">Chat</span>
@@ -475,7 +483,7 @@
                 </div>
 
                 <!-- Área de usuario inferior -->
-                <div class="mt-auto flex md:flex-col items-center hidden md:flex">
+                <div class="mt-auto flex flex-col items-center">
                     <div class="relative w-8 h-8 rounded-full border-2 border-em-highlight overflow-hidden cursor-pointer shadow-glow hover:scale-105 transition-transform" onclick="openAvatarLightbox('https://i.imgur.com/blxYIOL.jpeg')">
                         <img src="https://i.imgur.com/blxYIOL.jpeg" alt="Usuario" class="w-full h-full object-cover">
                     </div>
@@ -483,7 +491,7 @@
             </nav>
 
             <!-- Área de contenido central (SPA) -->
-            <main class="relative flex-1 rounded-[1.2rem] md:rounded-[2rem] overflow-hidden flex flex-col group h-full bg-em-base/50 min-h-[300px] md:min-h-0 box-border">
+            <main class="relative w-[80vw] min-w-[80vw] sm:w-[85vw] sm:min-w-[85vw] md:w-auto md:flex-1 md:min-w-0 rounded-[1.2rem] md:rounded-[2rem] overflow-hidden flex flex-col group h-full bg-em-base/50 box-border snap-center shrink-0">
                 
                 <!-- VISTA INICIO -->
                 <div id="view-home" class="view-panel active w-full h-full relative">
@@ -539,10 +547,8 @@
                                         <div class="w-5 h-5 rounded-full bg-gray-600 overflow-hidden"><img src="https://i.imgur.com/1LiE1r5.jpeg" class="w-full h-full object-cover"></div>
                                         <span class="text-xs text-gray-200">Xat.com</span>
                                     </div>
-        
                                 </div>
                             </div>
-                            <!-- Ícono de alertas eliminado -->
                         </div>
 
                         <button class="glass-panel px-3 py-1.5 rounded-full items-center gap-2 text-[10px] sm:text-xs hover:bg-em-highlight hover:text-em-base transition-colors cursor-pointer hidden xl:flex pointer-events-auto shadow-md" onclick="switchView('website')">
@@ -560,29 +566,29 @@
                             <div class="swiper-wrapper">
                                 <div class="swiper-slide relative hover-zoom">
                                     <img src="https://i.imgur.com/SJqtxWp.jpeg" class="w-full h-full object-cover">
-                                    <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-em-base to-transparent p-6"><h3 class="text-lg font-bold">Elvis</h3></div>
+                                    <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-em-base to-transparent p-4 sm:p-6"><h3 class="text-base sm:text-lg font-bold">Elvis</h3></div>
                                 </div>
                                 <div class="swiper-slide relative hover-zoom">
                                     <img src="https://i.imgur.com/c81ysSt.jpeg" class="w-full h-full object-cover">
-                                    <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-em-base to-transparent p-6"><h3 class="text-lg font-bold">Elvis</h3></div>
+                                    <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-em-base to-transparent p-4 sm:p-6"><h3 class="text-base sm:text-lg font-bold">Elvis</h3></div>
                                 </div>
                                 <div class="swiper-slide relative hover-zoom">
                                     <video autoplay loop muted playsinline class="w-full h-full object-cover">
                                         <source src="https://i.imgur.com/mOXAx6k.mp4" type="video/mp4">
                                     </video>
-                                    <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-em-base to-transparent p-6"><h3 class="text-lg font-bold">Elvis</h3></div>
+                                    <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-em-base to-transparent p-4 sm:p-6"><h3 class="text-base sm:text-lg font-bold">Elvis</h3></div>
                                 </div>
                                 <div class="swiper-slide relative hover-zoom">
                                     <img src="https://i.imgur.com/8GnYTI9.jpeg" class="w-full h-full object-cover">
-                                    <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-em-base to-transparent p-6"><h3 class="text-lg font-bold">Elvis</h3></div>
+                                    <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-em-base to-transparent p-4 sm:p-6"><h3 class="text-base sm:text-lg font-bold">Elvis</h3></div>
                                 </div>
                                 <div class="swiper-slide relative hover-zoom">
                                     <img src="https://i.imgur.com/AmiOH4n.jpeg" class="w-full h-full object-cover">
-                                    <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-em-base to-transparent p-6"><h3 class="text-lg font-bold">ir por la vida nalgonamente feliz</h3></div>
+                                    <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-em-base to-transparent p-4 sm:p-6"><h3 class="text-base sm:text-lg font-bold">ir por la vida nalgonamente feliz</h3></div>
                                 </div>
                                 <div class="swiper-slide relative hover-zoom">
                                     <img src="https://i.imgur.com/9xko3PS.jpeg" class="w-full h-full object-cover">
-                                    <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-em-base to-transparent p-6"><h3 class="text-lg font-bold">Elvis</h3></div>
+                                    <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-em-base to-transparent p-4 sm:p-6"><h3 class="text-base sm:text-lg font-bold">Elvis</h3></div>
                                 </div>
                             </div>
                             <div class="swiper-button-next"></div>
@@ -595,46 +601,46 @@
                 <!-- NUEVA VISTA WEBSITE (REEMPLAZA MÚSICA) -->
                 <div id="view-website" class="view-panel glass-panel bg-em-base/80 p-0 flex flex-col h-full box-border overflow-hidden">
                    <div class="chat-container">
-                       <div class="chat-iframe-wrapper scale-90 sm:scale-100">
+                       <div class="chat-iframe-wrapper scale-[0.75] sm:scale-90 md:scale-100 origin-center max-w-full overflow-hidden">
                            <iframe src="https://xat.com/embed/chat.php#id=220531447&gn=Saoko" allow="clipboard-write" width="412" height="333" frameborder="0" scrolling="no"></iframe>
                        </div>
-                       <div class="mt-2">
+                       <div class="mt-0 sm:mt-2">
                            <small class="text-em-highlight opacity-50"><a target="_BLANK" href="https://xat.com/web_gear/chat/embed.php?id=220531447&GroupName=Saoko" class="hover:underline">Entrar a Saoko Chat</a></small>
                        </div>
                    </div>
                 </div>
 
                 <!-- VISTA PERFIL (Amigos) -->
-                <div id="view-profile" class="view-panel glass-panel bg-em-base/80 p-4 sm:p-5 flex flex-col h-full overflow-y-auto box-border">
-                    <h2 class="font-cursive text-2xl sm:text-3xl text-em-highlight mb-4 drop-shadow-md text-center md:text-left">Amigos</h2>
+                <div id="view-profile" class="view-panel glass-panel bg-em-base/80 p-4 sm:p-5 flex flex-col h-full overflow-hidden box-border">
+                    <h2 class="font-cursive text-2xl sm:text-3xl text-em-highlight mb-4 drop-shadow-md text-center md:text-left shrink-0">Amigos</h2>
                     
-                    <div class="flex justify-center md:justify-start flex-wrap gap-4 sm:gap-6 mb-4 sm:mb-6 shrink-0">
-                        <div class="flex flex-col items-center gap-1 group cursor-pointer">
-                            <div class="w-10 h-10 sm:w-14 sm:h-14 rounded-full overflow-hidden border-2 border-transparent transition-all duration-300 group-hover:scale-110 group-hover:shadow-glow group-hover:border-em-highlight">
+                    <div class="flex justify-start gap-4 sm:gap-6 mb-4 sm:mb-6 shrink-0 overflow-x-auto hide-scrollbar smooth-scroll snap-x snap-mandatory pb-2 w-full px-2">
+                        <div class="flex flex-col items-center gap-1 group cursor-pointer snap-center shrink-0">
+                            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-full overflow-hidden border-2 border-transparent transition-all duration-300 group-hover:scale-110 group-hover:shadow-glow group-hover:border-em-highlight">
                                 <img src="https://i.imgur.com/cUcZDql.png" alt="Amigo 1" class="w-full h-full object-cover">
                             </div>
                             <span class="text-[10px] sm:text-xs font-medium text-gray-300 group-hover:text-em-highlight transition-colors">Gomi</span>
                         </div>
-                        <div class="flex flex-col items-center gap-1 group cursor-pointer">
-                            <div class="w-10 h-10 sm:w-14 sm:h-14 rounded-full overflow-hidden border-2 border-transparent transition-all duration-300 group-hover:scale-110 group-hover:shadow-glow group-hover:border-em-highlight">
+                        <div class="flex flex-col items-center gap-1 group cursor-pointer snap-center shrink-0">
+                            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-full overflow-hidden border-2 border-transparent transition-all duration-300 group-hover:scale-110 group-hover:shadow-glow group-hover:border-em-highlight">
                                 <img src="https://i.imgur.com/emSmrvs.png" alt="Amigo 2" class="w-full h-full object-cover">
                             </div>
                             <span class="text-[10px] sm:text-xs font-medium text-gray-300 group-hover:text-em-highlight transition-colors">Teki</span>
                         </div>
-                        <div class="flex flex-col items-center gap-1 group cursor-pointer">
-                            <div class="w-10 h-10 sm:w-14 sm:h-14 rounded-full overflow-hidden border-2 border-transparent transition-all duration-300 group-hover:scale-110 group-hover:shadow-glow group-hover:border-em-highlight">
+                        <div class="flex flex-col items-center gap-1 group cursor-pointer snap-center shrink-0">
+                            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-full overflow-hidden border-2 border-transparent transition-all duration-300 group-hover:scale-110 group-hover:shadow-glow group-hover:border-em-highlight">
                                 <img src="https://i.imgur.com/LeBJ9V0.png" alt="Amigo 3" class="w-full h-full object-cover">
                             </div>
                             <span class="text-[10px] sm:text-xs font-medium text-gray-300 group-hover:text-em-highlight transition-colors">Epika</span>
                         </div>
-                        <div class="flex flex-col items-center gap-1 group cursor-pointer">
-                            <div class="w-10 h-10 sm:w-14 sm:h-14 rounded-full overflow-hidden border-2 border-transparent transition-all duration-300 group-hover:scale-110 group-hover:shadow-glow group-hover:border-em-highlight">
+                        <div class="flex flex-col items-center gap-1 group cursor-pointer snap-center shrink-0">
+                            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-full overflow-hidden border-2 border-transparent transition-all duration-300 group-hover:scale-110 group-hover:shadow-glow group-hover:border-em-highlight">
                                 <img src="https://i.imgur.com/ZyYlzNr.png" alt="Amigo 4" class="w-full h-full object-cover">
                             </div>
                             <span class="text-[10px] sm:text-xs font-medium text-gray-300 group-hover:text-em-highlight transition-colors">Pitu</span>
                         </div>
-                        <div class="flex flex-col items-center gap-1 group cursor-pointer">
-                            <div class="w-10 h-10 sm:w-14 sm:h-14 rounded-full overflow-hidden border-2 border-transparent transition-all duration-300 group-hover:scale-110 group-hover:shadow-glow group-hover:border-em-highlight">
+                        <div class="flex flex-col items-center gap-1 group cursor-pointer snap-center shrink-0">
+                            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-full overflow-hidden border-2 border-transparent transition-all duration-300 group-hover:scale-110 group-hover:shadow-glow group-hover:border-em-highlight">
                                 <img src="https://i.imgur.com/Z7aG5VS.png" alt="Amigo 5" class="w-full h-full object-cover">
                             </div>
                             <span class="text-[10px] sm:text-xs font-medium text-gray-300 group-hover:text-em-highlight transition-colors">Fran</span>
@@ -680,7 +686,7 @@
             </main>
 
             <!-- Panel derecho -->
-            <aside class="w-full md:w-[220px] flex flex-col gap-2 z-20 flex-shrink-0 md:h-full overflow-y-auto md:overflow-hidden pb-4 md:pb-0 relative box-border">
+            <aside class="w-[80vw] min-w-[80vw] sm:w-[85vw] sm:min-w-[85vw] md:w-[220px] md:min-w-[220px] flex flex-col gap-2 z-20 flex-shrink-0 h-full overflow-y-auto hide-scrollbar pb-4 md:pb-0 relative box-border snap-center shrink-0">
                 
                 <!-- Encabezado de reloj -->
                 <div class="flex flex-col justify-center items-center pt-2 sm:pt-3 px-2 pb-2 w-full border-b border-em-highlight/10 flex-shrink-0">
@@ -691,7 +697,7 @@
                 </div>
 
                 <!-- Reproductor de música (Mantenido visualmente por diseño) -->
-                <div class="glass-panel rounded-[1.2rem] md:rounded-[1.5rem] p-3 flex-1 flex flex-col justify-between min-h-[200px] max-h-[240px] border border-em-highlight/20 shadow-lg relative overflow-hidden group shrink-0">
+                <div class="glass-panel rounded-[1.2rem] md:rounded-[1.5rem] p-3 flex-1 flex flex-col justify-between min-h-[200px] max-h-[240px] border border-em-highlight/20 shadow-lg relative overflow-hidden group shrink-0 mx-2 md:mx-0">
                     <div class="absolute inset-0 bg-em-highlight opacity-5 group-hover:opacity-10 transition-opacity pointer-events-none"></div>
                     <audio id="audio-player" src="track.mp3" preload="metadata"></audio>
                     <div class="w-14 h-14 sm:w-16 sm:h-16 lg:w-20 lg:h-20 mx-auto rounded-xl bg-em-base overflow-hidden relative shadow-inner-glow border border-em-highlight/10 flex-shrink-0">
@@ -1045,6 +1051,8 @@
 
         document.getElementById('prev-btn').addEventListener('click', () => { audio.currentTime = 0; if(!isPlaying) togglePlay(); });
         document.getElementById('next-btn').addEventListener('click', () => { audio.currentTime = 0; if(!isPlaying) togglePlay(); });
+
+        function loadTrack(title) { if(playerTitle) playerTitle.textContent = title; audio.currentTime = 0; if(!isPlaying) togglePlay(); }
 
         // Inicialización de Swiper
         let swiperInstance;
