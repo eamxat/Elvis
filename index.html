@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Emerald Artist Interface</title>
+    <title>Elvis Xatspace</title>
     
     <!-- Fuentes de Google -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -741,6 +741,11 @@
             </aside>
             
         </div>
+
+        <!-- Firma discreta (solo PC) -->
+        <div class="absolute bottom-4 left-1/2 -translate-x-1/2 text-[10px] text-em-highlight opacity-[0.15] tracking-widest pointer-events-none hidden md:block z-0">
+            ©2026 Eam96 Xatspace Design
+        </div>
     </div>
 
     <!-- Lightbox Avatar Modal -->
@@ -855,6 +860,11 @@
             enterBtn.addEventListener('click', () => {
                 introScreen.classList.add('hidden-intro');
                 // NOTA: 'main-app' ya es visible por detrás del blur (tiene la clase 'visible-app'), así que no es necesario quitar el 'hidden'.
+                
+                // Iniciar la música automáticamente
+                if (typeof togglePlay === 'function' && !isPlaying) {
+                    togglePlay();
+                }
             });
             
             // Iniciar swiper inmediatamente (para que renderice de fondo tras el blur sin bug de dimensiones)
@@ -1092,6 +1102,16 @@
         interactables.forEach(el => {
             el.addEventListener('mouseenter', () => { if(cursor) cursor.classList.add('hovering') });
             el.addEventListener('mouseleave', () => { if(cursor) cursor.classList.remove('hovering') });
+        });
+
+        // Bloqueo de F12, Click Derecho y atajos de desarrollador
+        document.addEventListener('contextmenu', e => e.preventDefault());
+        document.addEventListener('keydown', e => {
+            if (e.key === 'F12' || 
+               (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j')) || 
+               (e.ctrlKey && (e.key === 'U' || e.key === 'u'))) {
+                e.preventDefault();
+            }
         });
     </script>
 </body>
